@@ -1,26 +1,28 @@
 Low-Level Data Structure
 ========================
-llds provides a low-level data structure to user space. llds attempts to maximize memory efficiency via bypassing the virtual memory layer and optimized data structure alignment.
+llds provides a low-level data structure to user space. llds attempts to maximize memory efficiency via bypassing the virtual memory layer (vmalloc) and optimized data structure memory semantics.
 
-The llds general working thesis is: for large memory applications, the virtual memory layer can hurt application performance because of increased memory latency when dealing with large data structures.
+The llds general working thesis is: for large memory applications, virtual memory layers can hurt application performance due to increased memory latency when dealing with large data structures. Specifically, data page tables/directories within the kernel and increased DRAM requests can be avoided to boost application memory access.
 
-Applicable use cases: applications on systems that utilize large in-memory data structures (>16GB). llds is not for suitable for applications which do not have a a large singular data structure, 16GB or smaller, there will be no significant gains in such use cases. 
+Applicable use cases: applications on systems that utilize large in-memory data structures (>8GB). llds is not for suitable for applications which do not have large singular data structures, 8GB or smaller, there will be no significant gains in such use cases. 
 
 Installing/Configuring
 ======================
 
 <pre>
-cmake .
-make
+$ cmake .
+$ make
+# make install
+# mknod /dev/llds c 834 0
 </pre>
 
 How it Works
 ============
-llds is a Linux kernel module (2.6, 3.0) that leverages the ubiquitous red-black tree data structure within the kernel. Red-black tree data structures are highly optimized in the kernel and are used in managing processes to epoll file descriptors to file systems.
+llds is a Linux kernel module (2.6, 3.0) which leverages facilities provided by the kernel mm for optimal DRAM memory access. llds uses the red-black tree data structure, which are highly optimized in the kernel and are used in managing processes to epoll file descriptors to file systems.
 
-Memory management in llds is optimized for traversal latency, not space efficiency, though space savings are probable due to better alignment in most cases. llds data structures should not consume any more memory than equivalent user space data structures.
+Memory management in llds is optimized for traversal latency, not space efficiency, though space savings are probable due to better alignment in most use cases. llds data structures should not consume any more memory than their equivalent user space data structures.
 
-Traversal latency is optimized by exploiting underlying physical RAM mechanics, avoiding CPU cache pollution, and streamlining CPU data prefetching. The basic working theorem behind decreased latency is: continuous memory in physical space is more efficient than continuous memory in virtual space (which is not guaranteed to be continous in physical space). Fragmented memory access is less efficient when interacting with DRAM controllers. The efficiency also further suffers on NUMA systems as the number of processors/memory banks increases.
+Traversal latency is optimized by exploiting underlying physical RAM mechanics, avoiding CPU cache pollution, NUMA cross-check chatter, and streamlining CPU data prefetching (L1D cache lines). The basic working theorem behind the decreased latency is: continuous memory in physical space is more efficient than continuous memory in virtual space (which is not guaranteed to be continous in physical space) for modern DRAM controllers. Fragmented memory access is less efficient when interacting with modern DRAM controllers. The efficiency also further suffers on NUMA systems as the number of processors/memory banks increases.
 
 libforrest
 ==========
@@ -95,14 +97,15 @@ L1 Data Prefetch misses (200000 per *hardware* sample)
 
 Status
 ======
-llds is experimental. Though it's been tested in various environments (including integration into a search engine) it is not known to be in use on any production system, yet. With additional resources (eyes) looking at llds, the hope is that llds will be stable by Q4 '12 (ala Wall, Perl6, and Christmas).
+llds is experimental. Though it's been tested in various environments (including integration into a search engine) it is not known to be in use on any production system, yet. With additional eyes (preferably kernel hackers) looking at llds, the hope is that llds will be stable by Q4 '12 (ala Wall, Perl6, and Christmas).
 
 Known Limitations/Issues
 ========================
-libforrest has a limit on the value which comes back from kernel space, the default is 4096 bytes, it can be adjusted through the FORREST_MAX_VAL_LEN directive at compile time.
+- libforrest has a limit on the value which comes back from kernel space, the default is 4096 bytes, it can be adjusted through the FORREST_MAX_VAL_LEN directive at compile time.
+- Only 64-bit architecture support
 
 Future Work
 ===========
 - Support for additional data structures (hashes are questionable)
 - Add atomic operations (increment, decrement, CAS, etc.) in libforrest and llds
-- Research paper about the virtual memory overhead & implementation in the kernel with mitigation techniques
+- Research about the virtual memory overhead & implementation in the kernel with mitigation techniques
