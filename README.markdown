@@ -16,6 +16,8 @@ $ make
 # mknod /dev/llds c 834 0
 </pre>
 
+The build environment will need libproc, glibc, and linux headers. For Ubuntu/Debian based distros this is available in the libproc-dev, linux-libc-dev, and build-essential pkgs.
+
 How it Works
 ============
 llds is a Linux kernel module (2.6, 3.0) which leverages facilities provided by the kernel mm for optimal DRAM memory access. llds uses the red-black tree data structure, which are highly optimized in the kernel and are used in managing processes to epoll file descriptors to file systems.
