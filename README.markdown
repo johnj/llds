@@ -1,6 +1,6 @@
 Low-Level Data Structure
 ========================
-llds provides a low-level data structure to user space. llds attempts to maximize memory efficiency via bypassing the virtual memory layer (vmalloc) and optimized data structure memory semantics.
+llds is a btree implementation which attempts to maximize memory efficiency via bypassing the virtual memory layer (vmalloc) and through optimized data structure memory semantics.
 
 The llds general working thesis is: for large memory applications, virtual memory layers can hurt application performance due to increased memory latency when dealing with large data structures. Specifically, data page tables/directories within the kernel and increased DRAM requests can be avoided to boost application memory access.
 
@@ -44,9 +44,9 @@ Wall Timings (in seconds)
 -------------------------
 <table>
 <tr><td>Threads</td><td># of Items<td>userspace</td><td>llds</td><td>llds improvement</td></tr>
-<tr><td>2</td><td>500000000></td><td>3564</td><td>1761</td><td>2.02x</td></tr>
-<tr><td>16</td><td>1500000000></td><td>9291</td><td>4112</td><td>2.26x</td></tr>
-<tr><td>24</td><td>2000000000></td><td>12645</td><td>5670</td><td>2.23x</td></tr>
+<tr><td>2</td><td>500000000</td><td>3564</td><td>1761</td><td>2.02x</td></tr>
+<tr><td>16</td><td>1500000000</td><td>9291</td><td>4112</td><td>2.26x</td></tr>
+<tr><td>24</td><td>2000000000</td><td>12645</td><td>5670</td><td>2.23x</td></tr>
 </table>
 
 Unhalted CPU cycles (10000 cycles @ 133mHz)
