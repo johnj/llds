@@ -4,7 +4,7 @@ llds is a btree implementation which attempts to maximize memory efficiency via 
 
 The llds general working thesis is: for large memory applications, virtual memory layers can hurt application performance due to increased memory latency when dealing with large data structures. Specifically, data page tables/directories within the kernel and increased DRAM requests can be avoided to boost application memory access.
 
-Applicable use cases: applications on systems that utilize large in-memory data structures (>8GB). llds is not for suitable for applications which do not have large singular data structures, 8GB or smaller, there will be no significant gains in such use cases. 
+Applicable use cases: applications on systems that utilize large in-memory data structures. In our testing, "large" was defined as 8GB structures, which did not yield significant gains...however, this may not be the case in different use cases.
 
 Installing/Configuring
 ======================
@@ -22,9 +22,9 @@ How it Works
 ============
 llds is a Linux kernel module (2.6, 3.0) which leverages facilities provided by the kernel mm for optimal DRAM memory access. llds uses the red-black tree data structure, which is highly optimized in the kernel and is used to manage processes, epoll file descriptors, file systems, and many other components of the kernel.
 
-Memory management in llds is optimized for traversal latency, not space efficiency, though space savings are probable due to better alignment in most use cases. llds data structures should not consume any more memory than their equivalent user space data structures.
+Memory management in llds is optimized for traversal latency, not space efficiency, though space savings are probable due to better alignment in most use cases. llds data structures should not consume any more memory than their equivalent user space implementations.
 
-Traversal latency is optimized by exploiting underlying physical RAM mechanics, avoiding CPU cache pollution, NUMA cross-check chatter, and streamlining CPU data prefetching (L1D cache lines). The basic working theorem behind the decreased latency is: continuous memory in physical space is more efficient than continuous memory in virtual space (which is not guaranteed to be continous in physical space) for modern DRAM controllers. Fragmented memory access is less efficient when interacting with modern DRAM controllers. The efficiency also further suffers on NUMA systems as the number of processors/memory banks increases.
+Traversal latency is optimized by exploiting underlying physical RAM mechanics, avoiding CPU cache pollution, NUMA cross-check chatter, and streamlining CPU data prefetching (L1D cache lines). Fragmented memory access is less efficient when interacting with modern DRAM controllers. The efficiency also further suffers on NUMA systems as the number of processors/memory banks increases.
 
 libforrest
 ==========
