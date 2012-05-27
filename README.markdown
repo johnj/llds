@@ -4,7 +4,7 @@ llds is a btree implementation which attempts to maximize memory efficiency via 
 
 The llds general working thesis is: for large memory applications, virtual memory layers can hurt application performance due to increased memory latency when dealing with large data structures. Specifically, data page tables/directories within the kernel and increased DRAM requests can be avoided to boost application memory access.
 
-Applicable use cases: applications on systems that utilize large in-memory data structures. In our testing, "large" was defined as 8GB structures, which did not yield significant gains...however, this may not be the case in different use cases.
+Applicable use cases: applications on systems that utilize large in-memory data structures. In our testing, "large" was defined as >4GB structures, which did yielded significant gains with llds vs equivalent userspace implementations.
 
 Installing/Configuring
 ======================
