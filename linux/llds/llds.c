@@ -13,8 +13,15 @@
 #include <linux/mount.h>
 #include <linux/fs.h>
 #include <linux/vfs.h>
-#include <asm/system.h>
+#include <linux/version.h>
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,4,0)
+#include <asm/spinlock_types.h>
 #include <asm/uaccess.h>
+#else
+#include <asm/system.h>
+#endif
+#include <linux/uaccess.h>
 #include <linux/rbtree.h>
 #include <linux/slab.h>
 
@@ -38,7 +45,7 @@ struct rb_root kllds_rbtree = RB_ROOT;
 static struct kmem_cache *tmp_kllds_cache;
 
 /* this is only used for tree set ops */
-rwlock_t kllds_rwlck = RW_LOCK_UNLOCKED;
+rwlock_t kllds_rwlck = __RW_LOCK_UNLOCKED(kllds_rwlck);
 
 static __always_inline kllds_entry *alloc_kllds_cache(void) {
   kllds_entry *ret;
