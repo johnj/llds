@@ -20,7 +20,7 @@ The build environment will need libproc, glibc, and linux headers. For Ubuntu/De
 
 How it Works
 ============
-llds is a Linux kernel module (2.6, 3.0) which leverages facilities provided by the kernel mm for optimal DRAM memory access. llds uses the red-black tree data structure, which is highly optimized in the kernel and is used to manage processes, epoll file descriptors, file systems, and many other components of the kernel.
+llds is a Linux kernel module (2.6, 3.x) which leverages facilities provided by the kernel mm for optimal DRAM memory access. llds uses the red-black tree data structure, which is highly optimized in the kernel and is used to manage processes, epoll file descriptors, file systems, and many other components of the kernel.
 
 Memory management in llds is optimized for traversal latency, not space efficiency, though space savings are probable due to better alignment in most use cases. llds data structures should not consume any more memory than their equivalent user space implementations.
 
