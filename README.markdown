@@ -6,6 +6,20 @@ The llds general working thesis is: for large memory applications, virtual memor
 
 Applicable use cases: applications on systems that utilize large in-memory data structures. In our testing, "large" was defined as >4GB structures, which did yield significant gains with llds vs equivalent userspace implementations.
 
+Intel® Xeon Phi™ processors have somewhat reduced, certainly not eliminated, many of the cache pipeline improvements provided by llds, especially in regards to data prefetch.
+
+llds 2.0 (WIP) will attempt to better leverage the Phi™'s memory ring bus.
+
+Complexity
+======================
+| Function        | Mean           | Worst Case  |
+| ------------- |:-------------:|:-----:|
+| Search      | O(log n) | O(log n) |
+| Insert      | O(log n) | O(log n) |
+| Delete      | O(log n) | O(log n) |
+| Update      | O(log n) | O(log n) |
+
+
 Installing/Configuring
 ======================
 
