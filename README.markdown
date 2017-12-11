@@ -6,7 +6,9 @@ The llds general working thesis is: for large memory applications, virtual memor
 
 Applicable use cases: applications on systems that utilize large in-memory data structures. In our testing, "large" was defined as >4GB structures, which did yield significant gains with llds vs equivalent userspace implementations.
 
-Intel® Xeon Phi™ processors have somewhat reduced, certainly not eliminated, many of the cache pipeline improvements provided by llds, especially in regards to data prefetch.
+Intel® Xeon Phi™ processors have somewhat reduced, certainly not eliminated, many of the cache cohorency improvements provided by llds.
+
+llds still provides better performance (pipeline prefetch) and space efficiency on Phi™ microarchitectures.
 
 llds 2.0 (WIP) will attempt to better leverage the Phi™'s memory ring bus.
 
@@ -118,7 +120,8 @@ llds is experimental. Though it's been tested in various environments (including
 Known Limitations/Issues
 ========================
 - libforrest has a limit on the value which comes back from kernel space, the default is 4096 bytes, it can be adjusted through the FORREST_MAX_VAL_LEN directive at compile time.
-- Only 64-bit architecture support
+- Only 64-bit architecture support.
+- Only tested on x86, it may work on other arch's, drop a line if it does.
 
 Future Work
 ===========
