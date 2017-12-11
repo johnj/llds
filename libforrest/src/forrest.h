@@ -23,7 +23,7 @@ typedef struct __forrest {
 typedef forrest FORREST;
 
 FORREST *forrest_alloc();
-inline uint64_t ft_MurmurHash64A(const void *key, int len, unsigned int seed);
+uint64_t ft_MurmurHash64A(const void *key, int len, unsigned int seed);
 llds_result_ent *forrest_insert_key(FORREST *cs, uint64_t key, void *val, int vlen);
 llds_result_ent *forrest_get_key(FORREST *cs, uint64_t key);
 llds_result_ent *forrest_rm_tree(FORREST *cs);
