@@ -115,7 +115,9 @@ L1 Data Prefetch misses (200000 per *hardware* sample)
 
 Status
 ======
-llds is experimental. Though it's been tested in various environments (including integration into a search engine) it is not known to be in use on any production system, yet. With additional eyes (preferably kernel hackers) looking at llds, the hope is that llds will be stable by Q4 '12 (ala Wall, Perl6, and Christmas).
+llds is being used in at least two production search engines. Please let me know if you are using llds in production.
+
+Work on llds 2.0 is underway to better utilize cache rings which are "today"'s architecture. 
 
 Known Limitations/Issues
 ========================
