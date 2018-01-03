@@ -115,7 +115,7 @@ L1 Data Prefetch misses (200000 per *hardware* sample)
 
 Status
 ======
-llds is being used in at least two production search engines. Please let me know if you are using llds in production.
+llds is being used in at least two production search engines. Please let me know if you are using llds in production, you can remain anonymous.
 
 Work on llds 2.0 is underway to better utilize cache rings which are "today"'s architecture. 
 
