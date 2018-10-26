@@ -58,7 +58,3 @@ WORLD_READ WORLD_EXECUTE)
 
 INSTALL(FILES libforrest/src/forrest.h include/llds.h include/llds_common.h
 DESTINATION include/llds)
-
-ADD_EXECUTABLE(libforrest/examples/insert libforrest/examples/insert.c)
-
-TARGET_LINK_LIBRARIES(libforrest/examples/insert forrest)

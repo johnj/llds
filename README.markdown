@@ -25,18 +25,27 @@ Complexity
 Installing/Configuring
 ======================
 
+The build environment will need libproc, glibc, and linux headers. For Ubuntu/Debian based distros this is available in the libproc-dev, linux-libc-dev, and build-essential pkgs.
+
+llds kernel module
+-------------------------
+<pre>
+$ cd linux/llds && make -j$(nproc)
+# insmod llds.ko
+# mknod /dev/llds c 834 0
+</pre>
+
+libforrest
+-------------------------
 <pre>
 $ cmake .
 $ make
 # make install
-# mknod /dev/llds c 834 0
 </pre>
-
-The build environment will need libproc, glibc, and linux headers. For Ubuntu/Debian based distros this is available in the libproc-dev, linux-libc-dev, and build-essential pkgs.
 
 How it Works
 ============
-llds is a Linux kernel module (2.6, 3.x) which leverages facilities provided by the kernel mm for optimal DRAM memory access. llds uses the red-black tree data structure, which is highly optimized in the kernel and is used to manage processes, epoll file descriptors, file systems, and many other components of the kernel.
+llds is a Linux kernel module (2.6, 3.x, 4.x) which leverages facilities provided by the kernel mm for optimal DRAM memory access. llds uses the red-black tree data structure, which is highly optimized in the kernel and is used to manage processes, epoll file descriptors, file systems, and many other components of the kernel.
 
 Memory management in llds is optimized for traversal latency, not space efficiency, though space savings are probable due to better alignment in most use cases. llds data structures should not consume any more memory than their equivalent user space implementations.
 
