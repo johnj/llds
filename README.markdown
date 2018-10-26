@@ -27,20 +27,20 @@ Installing/Configuring
 
 The build environment will need libproc, glibc, and linux headers. For Ubuntu/Debian based distros this is available in the libproc-dev, linux-libc-dev, and build-essential pkgs.
 
-llds kernel module
--------------------------
-<pre>
-$ cd linux/llds && make -j$(nproc)
-# insmod llds.ko
-# mknod /dev/llds c 834 0
-</pre>
-
 libforrest
 -------------------------
 <pre>
 $ cmake .
 $ make
 # make install
+</pre>
+
+llds kernel module
+-------------------------
+<pre>
+$ cd linux/llds && make -j$(nproc)
+# insmod llds.ko
+# mknod /dev/llds c 834 0
 </pre>
 
 How it Works
