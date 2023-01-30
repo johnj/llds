@@ -151,7 +151,9 @@ long handle_ioctl_ops(struct file *f, unsigned int ioctl_opcode, unsigned long u
     if(!res_elem) {
       return FAILURE;
     }
-    copy_to_user(uptr->val, res_elem->val, res_elem->vlen);
+    if(copy_to_user(uptr->val, res_elem->val, res_elem->vlen)) {
+      return -EFAULT;
+    }
     return SUCCESS;
   }
 
@@ -166,7 +168,9 @@ long handle_ioctl_ops(struct file *f, unsigned int ioctl_opcode, unsigned long u
     ins_elem->vlen = uptr->vlen;
 
     ins_elem->val = kzalloc(uptr->vlen, GFP_ATOMIC);
-    copy_from_user(ins_elem->val, uptr->val, uptr->vlen);
+    if(copy_from_user(ins_elem->val, uptr->val, uptr->vlen)) {
+      return -EFAULT;
+    }
 
     kllds_insert_by_key(&kllds_rbtree, ins_elem);
   }
@@ -178,12 +182,8 @@ long handle_ioctl_ops(struct file *f, unsigned int ioctl_opcode, unsigned long u
 struct file_operations fops = {
   .read = handle_dev_read,
   .write = handle_dev_write,
-#ifdef HAVE_UNLOCKED_IOCTL
   .unlocked_ioctl = handle_ioctl_ops,
-#else
-#error "you shouldn't be running llds in a kernel without unlocked ioctl"
-  .ioctl = handle_ioctl_ops,
-#endif
+  .compat_ioctl = handle_ioctl_ops,
   .open = handle_dev_open,
   .release = handle_dev_release,
 };
